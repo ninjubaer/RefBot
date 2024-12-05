@@ -8,7 +8,7 @@ module.exports = {
         const rows = [new ActionRowBuilder()
             .addComponents(
                 new TextInputBuilder()
-                    .setLabel('Enter your Forntie username')
+                    .setLabel('Enter your Fortnite username')
                     .setCustomId('fnusername')
                     .setStyle(1)
                     .setRequired(false)

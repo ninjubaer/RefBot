@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { Client, GatewayIntentBits, ActivityType, REST, Collection, EmbedBuilder, VoiceChannel, ChannelType } = require("discord.js");
 const { Routes } = require("discord-api-types/v9");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, Timestamp } = require("mongodb");
 //include chalk
 const chalk = require("chalk");
 
@@ -97,12 +97,26 @@ client.on("interactionCreate", async interaction => {
                         )
                 ] });
                 break;
+            default:
+                break;
         }
     }
 })
-
-
-
+/* let func;
+client.on('guildMemberAdd', func = (async member => {
+    const channel = member.guild.channels.cache.find(ch => ch.type === ChannelType.GuildText && ch.name === 'welcome');
+    if (!channel) return;
+    channel.send({
+        embeds: [{
+            author: {
+                name: member.user.username,
+                iconURL: member.guild.iconURL()
+            },
+            title: 'Welcome to the server!',
+            timestamp: (new Date()).toString()
+        }]
+    })
+})) */
 client.login(process.env.TOKEN);
 (async () => {
     try {

@@ -41,7 +41,7 @@ module.exports = {
                         embeds: [
                             new EmbedBuilder()
                                 .addFields(
-                                    { name: "Fornite", value: user.fortnite || "none" },
+                                    { name: "Fortnite", value: user.fortnite || "none" },
                                     { name: "Valorant", value: user.valorant || "none" },
                                     { name: "WarThunder", value: user.warthunder || "none" }
                                 )
@@ -51,6 +51,7 @@ module.exports = {
                                     text: "Requested by " + interaction.user.username,
                                     iconURL: interaction.user.displayAvatarURL()
                                 })
+                                .setColor(0x2b2d31)
                         ]
                     })
                 case "set":
