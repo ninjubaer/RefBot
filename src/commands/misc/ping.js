@@ -3,23 +3,23 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription('Returns the bots ping'),
-    async execute(interaction, client) {
-        //console.log('ping command executed');
-        const message = await interaction.deferReply({
+        .setDescription('Get the bot\'s ping'),
+    async execute(interaction) {
+        await interaction.deferReply({
             fetchReply: true
         });
-
-        await interaction.editReply({
+        return await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Pong! 🏓')
-                    .setDescription(`Latency: \`${client.ws.ping}ms\`\nAPI: \`${message.createdTimestamp - interaction.createdTimestamp}ms\``)
-                    .setTimestamp()
+                    .setDescription(`API: \`${Date.now() - interaction.createdTimestamp}ms\`\nLatency: \`${interaction.client.ws.ping}ms\``)
                     .setColor(0x2b2d31)
-                    .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL()})
+                    .setTimestamp()
+                    .setFooter({
+                        text: `Requested by ${interaction.user.tag}`,
+                        iconURL: interaction.user.displayAvatarURL()
+                    })
             ]
         })
-
     }
 }

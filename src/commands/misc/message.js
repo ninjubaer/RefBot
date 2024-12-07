@@ -1,18 +1,37 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { Routes } = require('discord-api-types/v10')
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("message")
-        .setDescription("Send a message")
+        .setName('message')
+        .setDescription('send a message to a channel')
         .addStringOption(option =>
             option
-            .setName("data")
-            .setDescription("The message you want to send")
-            .setRequired(true)
+                .setName('json')
+                .setDescription('The json message to send')
+                .setRequired(true)
         )
-        .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers),
-        async execute(interaction, client) {
-            const message = interaction.options.getString("data");
-            await interaction.reply(JSON.parse(message));
+        .addChannelOption(option =>
+            option
+                .setName('channel')
+                .setDescription('The channel to send the message to')
+                .setRequired(false)
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+        ,
+    async execute(interaction) {
+        await interaction.deferReply({ ephemeral: true, fetchReply: true });
+        const json = interaction.options.getString('json');
+        const channel = interaction.options.getChannel('channel') || interaction.channel;
+        try {
+            const message = JSON.parse(json);
+            await interaction.client.rest.post(`/channels/${channel.id}/messages`, { body: message });
+            await interaction.editReply({ content: 'There was an error while sending the message!', ephemeral: true });
+            await interaction.editReply({ content: 'Message sent!', ephemeral: true });
         }
+        catch (error) {
+            console.error(error);
+            await interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true });
+        }
+    }
 }
