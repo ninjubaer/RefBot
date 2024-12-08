@@ -4,7 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('Get the bot\'s ping'),
-    async execute(interaction) {
+    async execute(interaction, client, mongoclient) {
         await interaction.deferReply({
             fetchReply: true
         });
