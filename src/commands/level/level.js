@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
-const { createCanvas, loadImage } = require('canvas');
+const { createCanvas, loadImage, registerFont } = require('canvas');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -7,6 +7,9 @@ module.exports = {
         .setDescription('Check your level')
         .addUserOption(option => option.setName('user').setDescription('The user to check').setRequired(false)),
     async execute(interaction, client, mongoclient) {
+        interaction.deferReply({
+            fetchReply: true
+        });
         const levelFunctions = require('../../utils/levels');
         const target = interaction.options.getUser('user') || interaction.user;
         const user = await require('../../db/index').fetchUser(mongoclient, target.username);
@@ -14,7 +17,7 @@ module.exports = {
         const rank = await levelFunctions.getRank(user.xp, mongoclient) + 1;
         const img = await createLevelcard(target.username, target.avatarURL({extension: "png"}), target.accentColor || 0x7289DA, level, user.xp, levelFunctions.xpForNextLevel(level),level ? levelFunctions.xpForNextLevel(level-1) : 0, rank);
         const attachment = new AttachmentBuilder(img, { name: 'levelcard.png' });
-        await interaction.reply({ files: [attachment] });
+        await interaction.editReply({ files: [attachment] });
     }
 }
 
@@ -29,7 +32,7 @@ async function createLevelcard(user, avatarurl, usercolor, level, xp, xpneeded, 
     ctx.fillStyle = '#ffffff';
     fillRoundedRect(ctx, 20, 200, 650, 50, 25);
     // draw xp
-    ctx.font = '20px GeistMono Nerd Font';
+    ctx.font = '20px "Arial"';
     let xpString = `${xp}/${xpneeded} XP`;
     let xpwidth = ctx.measureText(xpString).width;
     let xpHeight = ctx.measureText(xpString).actualBoundingBoxAscent + ctx.measureText(xpString).actualBoundingBoxDescent;
@@ -52,7 +55,7 @@ async function createLevelcard(user, avatarurl, usercolor, level, xp, xpneeded, 
     ctx.drawImage(avatar, avatarX, avatarY, avatarSize, avatarSize);
     ctx.restore();
     // draw user name
-    ctx.font = 'Superbold 50px GeistMono Nerd Font';
+    ctx.font = 'Superbold 50px "Arial"';
     let userheight = ctx.measureText(user).actualBoundingBoxAscent + ctx.measureText(user).actualBoundingBoxDescent;
     ctx.fillText(user, 210, avatarY + avatarSize / 2 + userheight / 2);
     // draw level
@@ -61,7 +64,7 @@ async function createLevelcard(user, avatarurl, usercolor, level, xp, xpneeded, 
     ctx.fillText(level, 670 + 130 / 2 - levelwidth / 2, 200 + 50 / 2 + levelheight / 2);
 
     // draw rank
-    ctx.font = 'Bold 40px GeistMono Nerd Font'
+    ctx.font = 'Bold 40px "Arial"'
     let rankString = (rank == 1) ? '1st' : (rank == 2) ? '2nd' : (rank == 3) ? '3rd' : rank + 'th';
     let rankwidth = ctx.measureText(rankString).width;
     let rankX = 780 - rankwidth;
