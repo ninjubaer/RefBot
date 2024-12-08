@@ -1,6 +1,6 @@
 module.exports = {
     name: 'interactionCreate',
-    async execute(interaction) {
+    async execute(interaction, client, mongoclient) {
         switch (interaction.isChatInputCommand()) {
             case true:
                 const command = interaction.client.commands.get(interaction.commandName);
@@ -10,7 +10,8 @@ module.exports = {
                 })
 
                 try {
-                    await command.execute(interaction);
+                    console.log(command.data.name);
+                    await command.execute(interaction, client, mongoclient);
                 }
                 catch (error) {
                     console.error(error);

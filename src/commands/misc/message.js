@@ -26,7 +26,6 @@ module.exports = {
         try {
             const message = JSON.parse(json);
             await interaction.client.rest.post(`/channels/${channel.id}/messages`, { body: message });
-            await interaction.editReply({ content: 'There was an error while sending the message!', ephemeral: true });
             await interaction.editReply({ content: 'Message sent!', ephemeral: true });
         }
         catch (error) {
