@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "src/bot.js",
   "scripts": {
-    "test": "node src/bot.js"
+    "test": "node src/bot.js",
+    "start": "node src/bot.js"
   },
   "keywords": [],
   "author": "",
