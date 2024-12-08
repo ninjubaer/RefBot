@@ -1,9 +1,9 @@
 module.exports = {
-    async fetchUser(mongoclient, username) {
-        const user = await mongoclient.db("RefBot").collection("users").findOne({ username: username });
+    async fetchUser(mongoclient, userid,) {
+        const user = await mongoclient.db("RefBot").collection("users").findOne({ id: userid });
         if (!user) {
-            await this.createUser(mongoclient, username);
-            return await this.fetchUser(mongoclient, username);
+            await this.createUser(mongoclient, userid);
+            return await this.fetchUser(mongoclient, userid);
         }
         return user;
     },
@@ -11,7 +11,7 @@ module.exports = {
         const xp = await this.fetchUser(mongoclient, username).xp || 0;
 
     },
-    async createUser(mongoclient, username) {
-        await mongoclient.db("RefBot").collection("users").insertOne({ username: username, xp: 0, fortnite: '', warthunder: '', valorant: '', name: '', lastxpmessage: 0});
+    async createUser(mongoclient, userid) {
+        await mongoclient.db("RefBot").collection("users").insertOne({ xp: 0, fortnite: '', warthunder: '', valorant: '', name: '', lastxpmessage: 0, id: userid});
     }
 }
