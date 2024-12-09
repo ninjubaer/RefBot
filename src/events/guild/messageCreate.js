@@ -2,6 +2,9 @@ module.exports = {
     name: 'messageCreate',
     async execute(message, client, mongoclient) {
         if (message.author.bot) return;
+        if (message.content.toLowerCase() === 'thank you oh holy dictator') {
+            message.channel.send('You\'re welcome, my child.');
+        }
         const dbfunctions = require('../../db/index')
         const levelFunctions = require('../../utils/levels');
         const user = await dbfunctions.fetchUser(mongoclient, message.author.id);
