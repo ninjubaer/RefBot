@@ -1,9 +1,10 @@
+const triggers = require('../../assets/triggers.json');
 module.exports = {
     name: 'messageCreate',
     async execute(message, client, mongoclient) {
         if (message.author.bot) return;
-        if (message.content.toLowerCase() === 'thank you oh holy dictator') {
-            message.channel.send('You\'re welcome, my child.');
+        if (Object.keys(triggers).includes(message.content.toLowerCase())) {
+            message.channel.send(triggers[message.content.toLowerCase()]);
         }
         const dbfunctions = require('../../db/index')
         const levelFunctions = require('../../utils/levels');
