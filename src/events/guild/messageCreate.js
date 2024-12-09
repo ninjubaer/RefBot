@@ -1,3 +1,4 @@
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const triggers = require('../../assets/triggers.json');
 module.exports = {
     name: 'messageCreate',
@@ -9,6 +10,10 @@ module.exports = {
         const dbfunctions = require('../../db/index')
         const levelFunctions = require('../../utils/levels');
         const user = await dbfunctions.fetchUser(mongoclient, message.author.id);
+        if (message.channel.id === '1315742548400148560') {
+            await message.react('👍');
+            await message.react('👎');
+        }
         if (Date.now() - (user.lastxpmessage||0) < 60000) return;
         // 15-35 xp
         const xpForNextLevel = levelFunctions.xpForNextLevel(levelFunctions.getLevel(user.xp));
