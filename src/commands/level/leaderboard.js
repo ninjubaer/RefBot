@@ -17,6 +17,7 @@ module.exports = {
         const members = await interaction.guild.members.fetch();
         for (const user of leaderboard) {
             const duser = members.get(user.id);
+            if (!duser) continue;
             players.push({
                 avatar: duser.user.displayAvatarURL({ extension: 'png', size: 512 }),
                 displayName: duser.displayName,
