@@ -11,15 +11,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@discordjs/rest": "^2.4.0",
     "canvacord": "^6.0.2",
-    "canvas": "^2.11.2",
-    "chalk": "^4.1.2",
+    "canvas": "2.11",
     "discord-api-types": "^0.37.110",
     "discord.js": "^14.16.3",
-    "dotenv": "^16.4.5",
-    "mongodb": "^6.11.0",
-    "mongoose": "^8.8.3",
-    "node-fetch": "^3.3.2"
+    "dotenv": "^16.4.7",
+    "mongodb": "^6.11.0"
   }
 }
