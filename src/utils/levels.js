@@ -7,7 +7,7 @@ module.exports = {
         return level;
     },
     xpForNextLevel(level) {
-        return level * 100 + 75;
+        return 50*level**2 + 25 * level;
     },
     async getRank(xp, mongoclient) {
         const users = mongoclient.db("RefBot").collection("users");
