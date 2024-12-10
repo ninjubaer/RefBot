@@ -20,7 +20,7 @@ module.exports = {
         if (amount > user.xp) {
             return interaction.editReply({content: "You do not have enough xp to bet that amount!"})
         }
-        const result = Math.random() >= 0.85
+        const result = Math.random() >= 0.6
         if (result) {
             user.xp += amount
             await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp } });
