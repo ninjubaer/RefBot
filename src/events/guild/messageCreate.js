@@ -34,6 +34,7 @@ module.exports = {
             }
         }
         user.xp += (Math.floor(Math.random() * 21) + 15) * xpBoost;
+        user.xp = floor(user.xp);
         const roleRewards = await mongoclient.db("RefBot").collection("roles").find({}).toArray();
         let roleObj;
         if (roleObj = roleRewards.find(role => role.requirements <= levelFunctions.getLevel(user.xp) && ((role.limit > role.given) || role.limit == 0))) {
