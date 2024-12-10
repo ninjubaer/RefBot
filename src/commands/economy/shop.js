@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,14 +17,15 @@ module.exports = {
         const actionrow = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setCustomId('buyitem1')
-                    .setColor('PRIMARY')
-                    .setLabel('Buy Custom Role'),
+                    .setCustomId('shopbutton:1')
+                    .setLabel('Buy Custom Role')
+                    .setStyle(1)
+                    ,
                 new ButtonBuilder()
-                    .setCustomId('buyitem2')
-                    .setColor('PRIMARY')
+                    .setCustomId('shopbutton:2')
+                    .setStyle(1)
                     .setLabel('Buy 2x XP 5 minutes')
             )
-        return await interaction.editReply({embeds: [embed]});
+        return await interaction.editReply({embeds: [embed], components: [actionrow]});
     }
 }
