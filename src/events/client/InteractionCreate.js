@@ -72,6 +72,13 @@ module.exports = {
                                 let price2 = 100
                                 if (user2.xp < price2) return interaction.reply({content: `You need ${price2} xp to buy this!`, ephemeral: true});
                                 user2.xp -= price2
+                                // extend the boost if existing
+                                if (user2.boosts.find(boost => boost.multiplier == 2)) {
+                                    const boost = user2.boosts.find(boost => boost.multiplier == 2)
+                                    boost.end = boost.end + 300000
+                                    await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user2.xp, boosts: user2.boosts } });
+                                    return interaction.reply({content: "Boost extended!", ephemeral: true})
+                                }
                                 user2.boosts.push({multiplier: 2, end: Date.now() + 300000})
                                 await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user2.xp, boosts: user2.boosts } });
                                 await interaction.reply({content: "Boost bought!", ephemeral: true})
