@@ -17,7 +17,23 @@ module.exports = {
         if (Date.now() - (user.lastxpmessage||0) < 60000) return;
         // 15-35 xp
         const xpForNextLevel = levelFunctions.xpForNextLevel(levelFunctions.getLevel(user.xp));
-        user.xp += Math.floor(Math.random() * 21) + 15
+        let xpBoost = 1;
+        // if server booster, 1.2x xp
+        if (message.guild.premiumSubscriptionCount > 0) {
+            xpBoost *= 1.2;
+        }
+        // if any xp boosts are active for the user, apply them
+        if (user.boosts) {
+            for (const boost of user.boosts) {
+                if (boost.end > Date.now()) {
+                    xpBoost *= boost.multiplier;
+                }
+                else {
+                    await mongoclient.db("RefBot").collection("users").updateOne({ id: message.author.id }, { $pull: { boosts: boost } });
+                }
+            }
+        }
+        user.xp += (Math.floor(Math.random() * 21) + 15) * xpBoost;
         const roleRewards = await mongoclient.db("RefBot").collection("roles").find({}).toArray();
         let roleObj;
         if (roleObj = roleRewards.find(role => role.requirements <= levelFunctions.getLevel(user.xp) && ((role.limit > role.given) || role.limit == 0))) {
