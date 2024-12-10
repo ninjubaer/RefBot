@@ -10,7 +10,7 @@ module.exports = {
             .setTitle("Shop")
             .setDescription("Buy items with your xp!")
             .addFields(
-                {name: "(1) Custom Role", "value": "10'000 xp", inline: false},
+                {name: "(1) Custom Role", "value": "20'000 xp", inline: false},
                 {name: "(2) 2x XP 5 minutes", "value": "100 xp", inline: false},
             )
             .setColor(0x2b2d31)
