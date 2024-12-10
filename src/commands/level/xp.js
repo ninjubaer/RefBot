@@ -52,7 +52,7 @@ module.exports = {
                     boost *= 1.2
                 }
                 for (const userboost of mongouser.boosts) {
-                    if (userboost.end > Date.now()) {
+                    if (userboost.end == null || userboost.end > Date.now()) {
                         boost *= userboost.multiplier
                     }
                     else {
