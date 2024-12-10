@@ -19,7 +19,7 @@ module.exports = {
         const xpForNextLevel = levelFunctions.xpForNextLevel(levelFunctions.getLevel(user.xp));
         let xpBoost = 1;
         // if server booster, 1.2x xp
-        if (message.guild.premiumSubscriptionCount > 0) {
+        if (message.member.premiumSinceTimestamp > 0) {
             xpBoost *= 1.2;
         }
         // if any xp boosts are active for the user, apply them

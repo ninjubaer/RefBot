@@ -48,7 +48,8 @@ module.exports = {
             case "multiplier":
                 const mongouser = await dbfunctions.fetchUser(mongoclient, interaction.user.id)
                 let boost = 1;
-                if (interaction.guild.premiumSubscriptionCount > 0) {
+                // if they are server booster
+                if (interaction.member.premiumSinceTimestamp > 0) {
                     boost *= 1.2
                 }
                 for (const userboost of mongouser.boosts) {
