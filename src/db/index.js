@@ -12,6 +12,6 @@ module.exports = {
 
     },
     async createUser(mongoclient, userid) {
-        await mongoclient.db("RefBot").collection("users").insertOne({ xp: 0, fortnite: '', warthunder: '', valorant: '', name: '', lastxpmessage: 0, id: userid});
+        await mongoclient.db("RefBot").collection("users").insertOne({ xp: 0, fortnite: '', warthunder: '', valorant: '', name: '', lastxpmessage: 0, id: userid, boosts: [], boughtMulti: 1 });
     }
 }
