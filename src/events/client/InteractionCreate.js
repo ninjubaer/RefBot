@@ -1,3 +1,4 @@
+const dbfunctions = require('../../db/index')
 module.exports = {
     name: 'interactionCreate',
     async execute(interaction, client, mongoclient) {
@@ -23,7 +24,24 @@ module.exports = {
 
                 break;
             case false:
-                
+                switch (interaction.customId.split(":")[0]) {
+                    case "confirm-multi-buy":
+                        const user = await dbfunctions.fetchUser(mongoclient, interaction.customId.split(":")[1])
+                        const price = 5000 * user.boughtMulti
+                        user.xp -= price
+                        user.boughtMulti *= 1.1
+                        await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.customId.split(":")[1] }, { $set: { xp: user.xp, boughtMulti: user.boughtMulti } });
+                        await interaction.update({content: "Multiplier bought!", embeds: [], components: []})
+                        break;
+                    case "cancel-multi-buy":
+                        await interaction.reply({
+                            content: "Cancelled!",
+                            components: []
+                        })
+                        break;
+                    default:
+                        break;
+                }
                 break;
         }
     }

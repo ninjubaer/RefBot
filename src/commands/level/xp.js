@@ -52,6 +52,7 @@ module.exports = {
                 if (interaction.member.premiumSinceTimestamp > 0) {
                     boost *= 1.2
                 }
+                boost *= mongouser.boughtMulti
                 for (const userboost of mongouser.boosts) {
                     if (userboost.end == null || userboost.end > Date.now()) {
                         boost *= userboost.multiplier

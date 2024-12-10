@@ -22,6 +22,9 @@ module.exports = {
         if (message.member.premiumSinceTimestamp > 0) {
             xpBoost *= 1.2;
         }
+        if (user.boughtMulti > 1) {
+            xpBoost *= user.boughtMulti;
+        }
         // if any xp boosts are active for the user, apply them
         if (user.boosts) {
             for (const boost of user.boosts) {
