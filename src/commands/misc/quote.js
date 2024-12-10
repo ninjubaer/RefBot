@@ -17,7 +17,6 @@ module.exports = {
     async execute(interaction) {
         await interaction.deferReply({
             fetchReply: true,
-            ephemeral: true
         });
         const channel = interaction.guild.channels.cache.get(interaction.options.getString('channel_id'));
         const message = await channel.messages.fetch(interaction.options.getString('message_id'));
@@ -26,7 +25,6 @@ module.exports = {
         const author = message.author.tag;
         const date = message.createdAt;
         return await interaction.editReply({
-            content: content,
             embeds: [
                 {
                     "author": {
