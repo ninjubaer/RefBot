@@ -30,35 +30,19 @@ module.exports = {
         const user = await require('../../db/index').fetchUser(mongoclient, target.id);
         const level = levelFunctions.getLevel(user.xp);
         const rank = await levelFunctions.getRank(user.xp, mongoclient) + 1;
-       /*  const rankCard = new RankCardBuilder()
-            .setDisplayName(target.globalName)
-            .setUsername(target.username)
-            .setAvatar(target.displayAvatarURL({ format: 'png', size: 512 }))
-            .setLevel(level)
-            .setRank(rank)
-            .setCurrentXP(user.xp)
-            .setRequiredXP(levelFunctions.xpForNextLevel(level))
-        const font = await Font.fromFile('./src/assets/font/Roboto-Bold.ttf');
-        const img = await rankCard.build({
-            fonts: [font],
-            format: 'png'
-        }) */
-        const rankCard = await createRankCard(target.username, target.displayAvatarURL({ extension: 'png', size: 512}), level, rank, user.xp, levelFunctions.xpForNextLevel(level));
+        const rankCard = await createRankCard(target.username, target.displayAvatarURL({ extension: 'png', size: 512}), level, rank, user.xp, levelFunctions.xpForNextLevel(level), levelFunctions.xpForNextLevel(level-1));
         const attachment = new AttachmentBuilder(rankCard, { name: 'levelcard.png' });
         await interaction.editReply({ files: [attachment] });
     }
 }
 
 
-async function createRankCard(username, avatar, level, rank, xp, requiredXP) {
+async function createRankCard(username, avatar, level, rank, xp, requiredXP, xpDiff) {
     const canva = createCanvas(480, 607);
     const ctx = canva.getContext('2d');
     background = await background;
     ctx.drawImage(background, 0, 0, canva.width, canva.height);
-
     const avatarImage = await loadImage(avatar);
-
-    // draw avatar
     ctx.save();
     ctx.beginPath();
     ctx.arc(240, 196, 118, 0, Math.PI * 2, true);
@@ -66,26 +50,17 @@ async function createRankCard(username, avatar, level, rank, xp, requiredXP) {
     ctx.clip();
     ctx.drawImage(avatarImage, 122, 78, 236, 236);
     ctx.restore();
-    // draw username
     ctx.font = 'Bold 40px "Roboto"';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
     ctx.fillText(username, canva.width/2, 370, canva.width - 40);
-
-    // draw level
     ctx.font = 'Bold 30px "Roboto"';
     ctx.fillText(level, 112, 509);
-
-    // draw rank
     ctx.fillText('#' + rank, 370, 509);
-
-    // draw xp
     ctx.font = 'Bold 20px "Roboto"';
     ctx.fillText(`${xp} / ${requiredXP}`, 240, 444, 360);
-
-    // draw progress
     ctx.fillStyle = '#fe95fe';
-    ctx.roundRect(60, 391, 360 / requiredXP * xp, 30, 15);
+    ctx.roundRect(60, 391, 360 / (requiredXP - xpDiff) * (xp - xpDiff), 30, 15);
     ctx.fill();
 
     return canva.toBuffer("image/png");
