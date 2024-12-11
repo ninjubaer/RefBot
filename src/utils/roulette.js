@@ -21,7 +21,7 @@ class RouletteGame {
         // bet object: { type: "straightup", amount: 100, value: 5, user: "1234567890" }
         this.#messageid = message.id;
         await this.#clearRouletteCollection();
-            await this.#mongoclient.db("RefBot").collection("roulette").insertOne({ message: message.id, bets: [], timestamp: Date.now() });
+        await this.#mongoclient.db("RefBot").collection("roulette").insertOne({ message: message.id, bets: [], timestamp: Date.now() });
     }
     async #clearRouletteCollection() {
         await this.#mongoclient.db("RefBot").collection("roulette").deleteMany({});
@@ -33,7 +33,7 @@ class RouletteGame {
      * 1: black
      * 0: red
      */
-    #isEven = (num) => num = 0 ? 2 : +!(num&1);
+    #isEven = (num) => num == 0 ? 2 : +!(num&1);
     async #spinWheel() {
         this.winningNumber = Math.floor(Math.random() * 37);
         this.winningColor = this.#isEven(this.winningNumber);
