@@ -1,0 +1,80 @@
+{
+	"roulette": {
+		"enabled": true,
+		"cooldown": 60,
+		"wait": 30,
+		"maxbet": 1000,
+		"minbet": 1,
+        "channelId": "1316089557623640105",
+        "guild": "1096115644598071347",
+		"payouts": {
+			"straightup": 35,
+			"color": 1,
+			"highlow": 1
+		},
+		"bet_list": [
+			"straightup",
+            "highlow",
+            "color"
+		],
+		"logging": {
+			"enabled": true,
+			"channel": null
+		},
+		"embed": {
+			"color": 2829617,
+			"author": {
+				"name": "Roulette",
+				"icon_url": "https://cdn-icons-png.flaticon.com/512/3425/3425938.png"
+			},
+			"timestamp": null
+		},
+		"components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "custom_id": "roulette:bet:red",
+                        "label": "Red",
+                        "style": 4
+                    },
+                    {
+                        "type": 2,
+                        "custom_id": "roulette:bet:black",
+                        "label": "Black",
+                        "style": 2
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "custom_id": "roulette:bet:low",
+                        "label": "Low",
+                        "style": 1
+                    },
+                    {
+                        "type": 2,
+                        "custom_id": "roulette:bet:high",
+                        "label": "High",
+                        "style": 1
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "custom_id": "roulette:bet:straightup",
+                        "label": "Straight Up",
+                        "style": 3
+                    }
+                ]
+            }
+		]
+	}
+}
