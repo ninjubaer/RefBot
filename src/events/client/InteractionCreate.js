@@ -28,11 +28,11 @@ module.exports = {
             case false:
                 switch (interaction.customId.split(":")[0]) {
                     case "confirm-multi-buy":
-                        user = await dbfunctions.fetchUser(mongoclient, interaction.customId.split(":")[1])
-                        const price = 5000 * user.boughtMulti
-                        user.xp -= price
-                        user.boughtMulti *= 1.1
-                        await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.customId.split(":")[1] }, { $set: { xp: user.xp, boughtMulti: user.boughtMulti } });
+                        let user3 = await dbfunctions.fetchUser(mongoclient, interaction.customId.split(":")[1])
+                        const price = 5000 * user3.boughtMulti
+                        user3.xp -= price
+                        user3.boughtMulti *= 1.1
+                        await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.customId.split(":")[1] }, { $set: { xp: user3.xp, boughtMulti: user3.boughtMulti } });
                         await interaction.update({content: "Multiplier bought!", embeds: [], components: []})
                         break;
                     case "cancel-multi-buy":
