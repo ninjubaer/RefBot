@@ -44,9 +44,9 @@ module.exports = {
                     case "shopbutton":
                         switch (interaction.customId.split(":")[1]) {
                             case "1":
-                                user = await dbfunctions.fetchUser(mongoclient, interaction.user.id)
+                                let user1 = await dbfunctions.fetchUser(mongoclient, interaction.user.id)
                                 let price = 20000
-                                if (user.xp < price) return interaction.reply({content: `You need ${price} xp to buy this!`, ephemeral: true});
+                                if (user1.xp < price) return interaction.reply({content: `You need ${price} xp to buy this!`, ephemeral: true});
                                 const modal = new ModalBuilder()
                                     .setTitle('Role Info')
                                     .setCustomId('roleinfomodal:' + price)
@@ -69,19 +69,19 @@ module.exports = {
                                     await interaction.showModal(modal)
                                 break;
                             case "2":
-                                user = await dbfunctions.fetchUser(mongoclient, interaction.user.id)
+                                let user2 = await dbfunctions.fetchUser(mongoclient, interaction.user.id)
                                 let price2 = 100
-                                if (user.xp < price2) return interaction.reply({content: `You need ${price2} xp to buy this!`, ephemeral: true});
-                                user.xp -= price2
+                                if (user2.xp < price2) return interaction.reply({content: `You need ${price2} xp to buy this!`, ephemeral: true});
+                                user2.xp -= price2
                                 // extend the boost if existing
-                                if (user.boosts.find(boost => boost.multiplier == 2)) {
-                                    const boost = user.boosts.find(boost => boost.multiplier == 2)
+                                if (user2.boosts.find(boost => boost.multiplier == 2)) {
+                                    const boost = user2.boosts.find(boost => boost.multiplier == 2)
                                     boost.end = boost.end + 300000
-                                    await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp, boosts: user.boosts } });
+                                    await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user2.xp, boosts: user2.boosts } });
                                     return interaction.reply({content: "Boost extended!", ephemeral: true})
                                 }
-                                user.boosts.push({multiplier: 2, end: Date.now() + 300000})
-                                await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp, boosts: user.boosts } });
+                                user2.boosts.push({multiplier: 2, end: Date.now() + 300000})
+                                await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user2.xp, boosts: user2.boosts } });
                                 await interaction.reply({content: "Boost bought!", ephemeral: true})
                                 break;
                         }
