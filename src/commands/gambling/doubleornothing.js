@@ -23,12 +23,14 @@ module.exports = {
         const result = Math.random() >= 0.6
         if (result) {
             user.xp += amount
-            await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp } });
+            user.gamblediff += amount
+            await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp, gamblediff: user.gamblediff } });
             return interaction.editReply({content: `You won ${amount} xp!`})
         }
         else {
             user.xp -= amount
-            await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp } });
+            user.gamblediff -= amount
+            await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp, gamblediff: user.gamblediff } });
             return interaction.editReply({content: `You lost ${amount} xp!`})
         }
     }

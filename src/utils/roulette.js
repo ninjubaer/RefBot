@@ -42,19 +42,19 @@ class RouletteGame {
         for (const bet of bets.bets) {
             if (bet.type === "straightup" ) {
                 if (bet.value === this.winningNumber) {
-                    this.#mongoclient.db("RefBot").collection("users").updateOne({ id: bet.user }, { $inc: { xp: bet.amount + bet.amount * roulette.payouts.straightup } });
+                    this.#mongoclient.db("RefBot").collection("users").updateOne({ id: bet.user }, { $inc: { xp: bet.amount + bet.amount * roulette.payouts.straightup, gamblediff: bet.amount + bet.amount * roulette.payouts.straightup } });
                     winners.push(`<@${bet.user}> won ${bet.amount + bet.amount * roulette.payouts.straightup}!`);
                 }
             }
             if (bet.type === 'color') {
                 if (bet.value === this.winningColor) {
-                    this.#mongoclient.db("RefBot").collection("users").updateOne({ id: bet.user }, { $inc: { xp: bet.amount + bet.amount * roulette.payouts.color } });
+                    this.#mongoclient.db("RefBot").collection("users").updateOne({ id: bet.user }, { $inc: { xp: bet.amount + bet.amount * roulette.payouts.color, gamblediff: bet.amount + bet.amount * roulette.payouts.color } });
                     winners.push(`<@${bet.user}> won ${bet.amount + bet.amount * roulette.payouts.color}!`);
                 }
             }
             if (bet.type === 'highlow') {
                 if (bet.value == 1 && this.winningNumber > 18 || bet.value == 0 && this.winningNumber < 19) {
-                    this.#mongoclient.db("RefBot").collection("users").updateOne({ id: bet.user }, { $inc: { xp: bet.amount + bet.amount * roulette.payouts.highlow } });
+                    this.#mongoclient.db("RefBot").collection("users").updateOne({ id: bet.user }, { $inc: { xp: bet.amount + bet.amount * roulette.payouts.highlow, gamblediff: bet.amount + bet.amount * roulette.payouts.highlow } });
                     winners.push(`<@${bet.user}> won ${bet.amount + bet.amount * roulette.payouts.highlow}!`);
                 }
             }

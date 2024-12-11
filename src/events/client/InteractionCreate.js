@@ -180,7 +180,8 @@ module.exports = {
                                 let value = betvar === 'straightup' ? +interaction.components[0].components[0].value : betvar === 'red' ? 0 : betvar === 'black' ? 1 : betvar === 'low' ? 0 : 1
                                 await collection.updateOne({ message: interaction.message.id }, { $push: { bets: {type: betType, amount, user: interaction.user.id, value }}})
                                 user.xp -= amount
-                                await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp } });
+                                user.gamblediff -= amount
+                                await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp, gamblediff: user.gamblediff } });
                                 await interaction.reply({content: "Bet placed!", ephemeral: true})                                
                         }
                     default:
