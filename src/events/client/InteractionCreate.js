@@ -169,9 +169,11 @@ module.exports = {
                                 if (amount < 1) return interaction.reply({content: "Amount must be greater than 0!", ephemeral: true})
                                 if (amount > user.xp) return interaction.reply({content: "You don't have enough xp!", ephemeral: true})
                                 let game = await collection.findOne({ message: interaction.message.id})
-                                console.log(game)
                                 if (!game) {
                                     return interaction.reply({content: "No game found!", ephemeral: true})
+                                }
+                                if (game.timestamp + require('../../../config.json').roulette.wait * 1000 < Date.now()) {
+                                    return interaction.reply({ content: "No more bets!", ephemeral: true })
                                 }
                                 let betvar = interaction.customId.split(":")[2]
                                 let betType = betvar === 'straightup' ? betvar : betvar === 'red' ? 'color' : betvar === 'black' ? 'color' : 'highlow'

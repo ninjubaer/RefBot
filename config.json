@@ -3,6 +3,7 @@
 		"enabled": true,
 		"cooldown": 60,
 		"wait": 60,
+        "interval": 70,
 		"maxbet": 1000,
 		"minbet": 1,
         "channelId": "1316089557623640105",

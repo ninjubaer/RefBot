@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { Client, GatewayIntentBits, Collection, REST} = require("discord.js");
-const { MongoClient, ServerApiVersion, Timestamp } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const client = new Client({
     intents: [
@@ -38,6 +38,4 @@ const roulette = require('./utils/roulette.js');
 setInterval(() => {
     if (!client.isReady()) return;
     new roulette.RouletteGame(client, mongoclient);
-}, 300000);
-
-console.log(new Timestamp().toString());
+}, require('../config.json').roulette.interval * 1000);

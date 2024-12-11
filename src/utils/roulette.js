@@ -1,5 +1,3 @@
-const { Timestamp } = require('mongodb');
-
 const roulette = require('../../config.json').roulette;
 class RouletteGame {
     #client; #mongoclient; #messageid;
@@ -23,7 +21,7 @@ class RouletteGame {
         // bet object: { type: "straightup", amount: 100, value: 5, user: "1234567890" }
         this.#messageid = message.id;
         await this.#clearRouletteCollection();
-        await this.#mongoclient.db("RefBot").collection("roulette").insertOne({ message: message.id, bets: [] })
+            await this.#mongoclient.db("RefBot").collection("roulette").insertOne({ message: message.id, bets: [], timestamp: Date.now() });
     }
     async #clearRouletteCollection() {
         await this.#mongoclient.db("RefBot").collection("roulette").deleteMany({});
