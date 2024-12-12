@@ -30,7 +30,7 @@ module.exports = {
                 case 'xp':
                     const multiplier = interaction.options.getInteger('multiplier')
                     const duration = interaction.options.getInteger('duration')
-                    await users.updateMany({}, { $push: { boosts: { multiplier, duration: Date.now() + duration * 60000 } } })
+                    await users.updateMany({}, { $push: { boosts: { multiplier, end: Date.now() + duration * 60000 } } })
                     return interaction.editReply({ content: `Started an xp event with a ${multiplier}x multiplier for ${duration} minutes!` })
             }
         }
