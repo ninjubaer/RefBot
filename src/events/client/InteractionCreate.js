@@ -182,7 +182,15 @@ module.exports = {
                                 user.xp -= amount
                                 user.gamblediff -= amount
                                 await mongoclient.db("RefBot").collection("users").updateOne({ id: interaction.user.id }, { $set: { xp: user.xp, gamblediff: user.gamblediff } });
-                                await interaction.reply({content: "Bet placed!", ephemeral: true})                                
+                                await interaction.reply({content: "Bet placed!", ephemeral: true})
+                                // update bets in the message.
+                                if (interaction.message.embeds[0].fields[1].value === "No bets yet!") {
+                                    interaction.message.embeds[0].fields[1].value = `${interaction.user.username}: ${amount}XP on ${betvar}`
+                                }
+                                else {
+                                    interaction.message.embeds[0].fields[1].value += `\n${interaction.user.username}: ${amount}XP on ${betvar}`
+                                }
+                                await interaction.message.edit({embeds: interaction.message.embeds})
                         }
                     default:
                         break;

@@ -16,7 +16,7 @@ class RouletteGame {
         let embed = { ...roulette.embed };
         embed.title = "Roulette";
         embed.description = "Place your bets!";
-        embed.fields = [{ name: "Bets", value: roulette.bet_list.join("\n") }];
+        embed.fields = [{ name: "end", value: `Bets end <t:${Math.floor(Date.now() / 1000) + (roulette.wait-5)}:R>`}, { name: "Bets", value: "No bets yet!" }];
         const message = await channel.send({ embeds: [embed], components: roulette.components });
         // bet object: { type: "straightup", amount: 100, value: 5, user: "1234567890" }
         this.#messageid = message.id;
