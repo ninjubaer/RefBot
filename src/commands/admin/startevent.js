@@ -9,7 +9,7 @@ module.exports = {
             subcommand
                 .setName('xp')
                 .setDescription('Start an xp event')
-                .addIntegerOption(option =>
+                .addNumberOption(option =>
                     option
                         .setName('multiplier')
                         .setDescription('The xp multiplier for the event')
@@ -28,7 +28,7 @@ module.exports = {
             const users = mongoclient.db("RefBot").collection("users")
             switch (interaction.options.getSubcommand()) {
                 case 'xp':
-                    const multiplier = interaction.options.getInteger('multiplier')
+                    const multiplier = interaction.options.getNumber('multiplier')
                     const duration = interaction.options.getInteger('duration')
                     await users.updateMany({}, { $push: { boosts: { multiplier, end: Date.now() + duration * 60000 } } })
                     return interaction.editReply({ content: `Started an xp event with a ${multiplier}x multiplier for ${duration} minutes!` })
