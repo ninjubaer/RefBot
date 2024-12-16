@@ -58,6 +58,7 @@ module.exports = {
             case "add":
                 const multiplier = interaction.options.getNumber('multiplier')
                 const duration = interaction.options.getInteger('duration') || null
+                require('../../utils/logabuse').logabuse(`${interaction.user.tag} used the multiplier command: ${multiplier}x multiplier to ${user.tag} for ${duration ? `${duration} minutes` : "forever"}`)
                 mongouser.boosts.push({ multiplier, end: duration ? Date.now() + duration * 60000 : null})
                 await mongoclient.db("RefBot").collection("users").updateOne({ id: user.id }, { $set: { boosts: mongouser.boosts}});
                 return interaction.editReply({embeds: [{title: "Multiplier Added", description: `Added a ${multiplier}x multiplier to ${user.username} for ${duration ? `${duration} minutes` : "forever"}`}]})
