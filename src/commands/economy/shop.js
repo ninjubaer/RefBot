@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Emoji } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -11,7 +11,7 @@ module.exports = {
             .setDescription("Buy items with your xp!")
             .addFields(
                 {name: "(1) Custom Role", "value": "20'000 xp", inline: false},
-                {name: "(2) 2x XP 5 minutes", "value": "100 xp", inline: false},
+                {name: "(2) <:xpboost:1318204006962692147> 2x xp boost 5min", "value": "100 xp", inline: false},
             )
             .setColor(0x2b2d31)
         const actionrow = new ActionRowBuilder()
@@ -25,6 +25,7 @@ module.exports = {
                     .setCustomId('shopbutton:2')
                     .setStyle(1)
                     .setLabel('Buy 2x XP 5 minutes')
+                    .setEmoji("<:xpboost:1318204006962692147>")
             )
         return await interaction.editReply({embeds: [embed], components: [actionrow]});
     }
