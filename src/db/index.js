@@ -27,7 +27,8 @@ module.exports = {
 				id: userid,
 				boosts: [],
 				boughtMulti: 1,
-                gamblediff: 0
+                gamblediff: 0,
+				inventory: []
 			});
 	},
 };

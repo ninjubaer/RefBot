@@ -53,7 +53,7 @@ class RouletteGame {
                 }
             }
             if (bet.type === 'highlow') {
-                if (bet.value == 1 && this.winningNumber > 18 || bet.value == 0 && this.winningNumber < 19) {
+                if (bet.value == 1 && this.winningNumber > 18 || bet.value == 0 && (this.winningNumber < 19 && this.winningNumber > 0)) {
                     this.#mongoclient.db("RefBot").collection("users").updateOne({ id: bet.user }, { $inc: { xp: bet.amount + bet.amount * roulette.payouts.highlow, gamblediff: bet.amount + bet.amount * roulette.payouts.highlow } });
                     winners.push(`<@${bet.user}> won ${bet.amount + bet.amount * roulette.payouts.highlow}!`);
                 }
