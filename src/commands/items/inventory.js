@@ -9,7 +9,7 @@ module.exports = {
         const user = await fetchUser(mongoclient, interaction.user.id);
         let description = '';
         user.inventory.forEach(element => {
-            description += `${element.name} - ${element.amount}\n`
+            element.amount && (description += `${element.name} - ${element.amount}\n`)
         });
         description = description.trim() || 'No items in your inventory'
         const embed = new EmbedBuilder()
