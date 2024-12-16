@@ -12,10 +12,9 @@ module.exports = {
             description += `${element.name} - ${element.amount}\n`
         });
         description = description.trim() || 'No items in your inventory'
-        console.log(description)
         const embed = new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Inventory`)
-            .setDescription(`You have ${user.inventory.length} items in your inventory`)
+            .setDescription(description)
         interaction.reply({ embeds: [embed], ephemeral: true})
     }
 }
