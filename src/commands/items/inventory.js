@@ -16,5 +16,6 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Inventory`)
             .setDescription(`You have ${user.inventory.length} items in your inventory`)
+        interaction.reply({ embeds: [embed], ephemeral: true})
     }
 }
