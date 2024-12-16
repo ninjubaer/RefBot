@@ -19,10 +19,10 @@ module.exports = {
         ,
     async execute(interaction, client, mongoclient) {
         const user = await nerd(mongoclient, interaction.user.id);
-        const boost = user.inventory.find(i => i.name === '<:xpboost:1318204006962692147> 2x xp boost 5min');
-        if (!boost || boost.amount < 1) return interaction.reply({ content: 'You do not have any boosts', ephemeral: true });
         switch (interaction.options.getSubcommand()) {
             case "use":
+                const invboost = user.inventory.find(i => i.name === '<:xpboost:1318204006962692147> 2x xp boost 5min');
+                if (!invboost || invboost.amount < 1) return interaction.reply({ content: 'You do not have any boosts', ephemeral: true });
                 user.inventory.find(i => i.name === '<:xpboost:1318204006962692147> 2x xp boost 5min').amount--;
                 if (user.boosts.find(b => b.name === '2x xp boost 5min')) {
                     user.boosts.find(b => b.name === '2x xp boost 5min').end += 300000;
