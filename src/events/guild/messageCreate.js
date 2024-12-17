@@ -1,5 +1,13 @@
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const triggers = require('../../assets/triggers.json');
+const antiSpamData = new Map();
+
+
+const MAX_DUPLICATES = 3;
+const SPAM_INTERVAL = 5000;
+const MAX_MESSAGES = 5;
+const WARNING_THRESHOLD = 3;
+
 module.exports = {
     name: 'messageCreate',
     async execute(message, client, mongoclient) {
@@ -14,6 +22,31 @@ module.exports = {
             await message.react('👍');
             await message.react('👎');
         }
+
+        // anti-spam
+        const userId = message.author.id;
+        const now = Date.now();
+        if (!antiSpamData.has(userId)) {
+            antiSpamData.set(userId, []);
+        }
+        const messageArr = antiSpamData.get(userId);
+        messageArr.push({ time: now, content: message.content });
+        
+        while (messageArr.length && now - messageArr[0].time > SPAM_INTERVAL) {
+            messageArr.shift();
+        }
+
+        if (messageArr.length > MAX_MESSAGES) {
+            message.delete().catch(() => {});
+        } else if (messageArr.length > WARNING_THRESHOLD) {
+            message.reply('Please slow down!').then(msg => {
+                setTimeout(() => {
+                    msg.delete().catch(() => {});
+                }, 2000);
+            });
+        }
+
+
         if (Date.now() - (user.lastxpmessage||0) < 60000) return;
         // 15-35 xp
         const xpForNextLevel = levelFunctions.xpForNextLevel(levelFunctions.getLevel(user.xp));
