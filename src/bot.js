@@ -1,7 +1,7 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, Collection, REST} = require("discord.js");
+const { Client, GatewayIntentBits, Collection, REST, Partials} = require("discord.js");
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
+const fs = require('fs');
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -12,8 +12,11 @@ const client = new Client({
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.GuildInvites,
         GatewayIntentBits.GuildVoiceStates
-    ]
+    ],
+    partials: [Partials.Channel]
 })
+
+
 const mongoclient = new MongoClient(process.env.MONGODBTOKEN, {
     serverApi: {
         version: ServerApiVersion.v1
@@ -27,6 +30,7 @@ require('./events/index.js').init(client, mongoclient);
 levelFunctions = require('./utils/levels.js');
 
 client.login(process.env.TOKEN);
+
 mongoclient.connect().then(() => {
     console.log('Connected to MongoDB');
 }).catch((error) => {
