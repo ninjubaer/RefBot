@@ -20,7 +20,7 @@ module.exports = {
         if (amount > user.xp) {
             return interaction.editReply({content: "You do not have enough xp to bet that amount!"})
         }
-        const result = Math.random() >= 0.6
+        const result = Math.random() >= 0.55
         if (result) {
             user.xp += amount
             user.gamblediff += amount

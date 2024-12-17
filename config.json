@@ -77,5 +77,19 @@
                 ]
             }
 		]
-	}
+	},
+    "items": [
+        {
+            "name": "2x xp boost 5min",
+            "description": "Double your xp earned from messages for 5 minutes"
+        },
+        {
+            "name": "common lootbox",
+            "description": "Contains common items"
+        },
+        {
+            "name": "speedboost potion",
+            "description": "Reduce the xp cooldown by 50%"
+        }
+    ]
 }

@@ -11,7 +11,7 @@ module.exports = {
             .setDescription("Buy items with your xp!")
             .addFields(
                 {name: "(1) Custom Role", "value": "20'000 xp", inline: false},
-                {name: "(2) <:xpboost:1318204006962692147> 2x xp boost 5min", "value": "100 xp", inline: false},
+                {name: "(2) <:xpboost:1318204006962692147> 2x xp boost 5min", "value": "100 xp", inline: false}
             )
             .setColor(0x2b2d31)
         const actionrow = new ActionRowBuilder()

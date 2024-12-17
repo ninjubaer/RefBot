@@ -28,7 +28,8 @@ module.exports = {
 				boosts: [],
 				boughtMulti: 1,
                 gamblediff: 0,
-				inventory: []
+				inventory: [],
+				bitcoin: 0,
 			});
 	},
 };
