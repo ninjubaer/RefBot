@@ -30,6 +30,7 @@ module.exports = {
                 gamblediff: 0,
 				inventory: [],
 				bitcoin: 0,
+				ethereum: 0
 			});
 	},
 };
