@@ -91,5 +91,8 @@
             "name": "speedboost potion",
             "description": "Reduce the xp cooldown by 50%"
         }
-    ]
+    ],
+    "blaackjack": {
+        "enabled": true
+    }
 }
