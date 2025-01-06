@@ -1,13 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const triggers = require('../../assets/triggers.json');
-const antiSpamData = new Map();
-
-
-const MAX_DUPLICATES = 3;
-const SPAM_INTERVAL = 5000;
-const MAX_MESSAGES = 5;
-const WARNING_THRESHOLD = 3;
-
 module.exports = {
     name: 'messageCreate',
     async execute(message, client, mongoclient) {
@@ -22,48 +14,6 @@ module.exports = {
             await message.react('👍');
             await message.react('👎');
         }
-
-        // anti-spam
-        const userId = message.author.id;
-        const now = Date.now();
-        if (!antiSpamData.has(userId)) {
-            antiSpamData.set(userId, { timestamps: [], messages: [] });
-        }
-        const timestamps = antiSpamData.get(userId).timestamps;
-        timestamps.push(now);
-        const messages = antiSpamData.get(userId).messages;
-        messages.push(message);
-        
-        while (timestamps.length && now - timestamps[0] > SPAM_INTERVAL) {
-            timestamps.shift();
-        }
-
-        if (timestamps.length > MAX_MESSAGES) {
-            message.delete().catch(console.error);
-            message.channel.send(`Please don't spam ${message.author}!`).then(msg=>setTimeout(()=>msg.delete(), 5000));
-            return;
-        }
-        else if (timestamps.length > WARNING_THRESHOLD) {
-            message.channel.send(`Please don't spam ${message.author}!`).then(msg=>setTimeout(()=>msg.delete(), 5000));
-        }
-
-        // check for duplicates
-        if (messages.length > MAX_DUPLICATES) {
-            messages.shift();
-            let isDuplicate = true;
-            for (let i = 1; i < messages.length; i++) {
-                if (messages[i].content !== messages[i - 1].content) {
-                    isDuplicate = false;
-                    break;
-                }
-            }
-            if (isDuplicate) {
-                message.delete().catch(console.error);
-                message.channel.send(`Please don't spam ${message.author}!`).then(msg=>setTimeout(()=>msg.delete(), 5000));
-                return;
-            }
-        }
-
 
         if (Date.now() - (user.lastxpmessage||0) < 60000) return;
         // 15-35 xp
