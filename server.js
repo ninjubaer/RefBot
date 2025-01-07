@@ -29,12 +29,14 @@ const mongoclient = new MongoClient(process.env.MONGODBTOKEN, {
 app.get("/", (req, res) => {
 	res.send("Hello World!");
 });
-app.post("/api/roulette", async (req, res) => {
+app.get("/api/roulette", async (req, res) => {
     let user;
 	if (!(user = await mongoclient.db("RefBot").collection("admin_users").findOne({user: req.headers.authorization?.split(" ")[1]}))) {
         res.status(401).send('{"error":"(401) Unauthorized"}')
         return;
     }
+	const roulette = await mongoclient.db("RefBot").collection("roulette").findOne({});
+	res.send(roulette?.winningNumber || '{"error":"no roulette game found!"}');
 });
 
 app.listen(port, () => {
