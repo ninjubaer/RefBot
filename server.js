@@ -36,8 +36,11 @@ app.get("/api/roulette", async (req, res) => {
         return;
     }
 	const roulette = await mongoclient.db("RefBot").collection("roulette").findOne({});
-	res.send(roulette?.winningNumber || '{"error":"no roulette game found!"}');
+	res.send(`{"winningNumber":${roulette?.winningNumber}}` || '{"error":"no roulette game found!"}');
 });
+app.get("/roulette", async (req, res) => {
+	res.redirect("https://youtu.be/dQw4w9WgXcQ?si=XPVc4Uv1LIPtDRY5");
+})
 
 app.listen(port, () => {
 	console.log(`Example app listening at http://localhost:${port}`);
